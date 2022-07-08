@@ -3,9 +3,6 @@
 function prepData() {
 
 	URL="https://localhost/mgmt/tm/asm/policies/$POLICYID/urls"
-	JSON_DATA='{"name": "'$1'", "protocol": "https", "description": "Added_via_allowedURLs_script", "performStaging": "false"}'
-	echo $JSON_DATA
-#	sendRequest $URL $JSON_DATA
 	sendRequest $URL $1
 }
 
@@ -21,13 +18,15 @@ function prepApplyData() {
 	applyPolicy $URL_APPLY $JSON_DATA
 }
 
+
 function applyPolicy(){
 	curl -sku "$USERF5":"$PASSWORD" -X POST "$1" --data '"$2"' | jq .
 }
 
+#Checking for missing arguments
 function checkArgs(){
     if [[ -z $1 ]]; then
-        echo "Missing arguments"
+        echo "Missing arguments, try allowedURLs.sh -h for help"
         exit 1;
     fi
 }
@@ -54,22 +53,18 @@ for i in "$@"; do
     case $i in
         -i=*|--input=*)
             FILE="${i#*=}"
-			checkArgs $FILE
             shift
             ;;
         -p=*|--policy=*)
             POLICYID="${i#*=}"
-			checkArgs $POLICYID
             shift
             ;;
         -u=*|--user=*)
             USERF5="${i#*=}"
-			checkArgs $USERF5
             shift
             ;;
         -c=*|--password=*)
             PASSWORD="${i#*=}"
-			checkArgs $PASSWORD
             shift
             ;;
         -h|--help)
