@@ -1,2 +1,3 @@
 # F5AutomateAllowedURLs
-Un script que simplifica la automatización para introducir las URLs permitidas dentro del WAF, cuando se trabaja con un WAF de BIG-IP de F5
+A script that simplifies the automation for entering the allowed URLs within the WAF, when working with an F5 BIG-IP WAF
+
